@@ -1,4 +1,5 @@
 const memo = require('memoizee')
+const {trace} = require('xtrace')
 const {
   map,
   curry,
@@ -18,9 +19,9 @@ const STRINGS = freeze({
 
 const uniq = x => [...new Set(x)]
 const neue = x => [].concat(x)
-// const prepend = curry(
-//   (pre, post) => `${pre}${post}`
-// )
+const prepend = curry(
+  (pre, post) => `${pre}${post}`
+)
 const safeprepend = curry(
   (pre, post) => (
     post
@@ -43,7 +44,7 @@ const bem = memo(
       neue,
       join(STRINGS.element),
       safeprepend(STRINGS.element),
-      safeprepend(b),
+      prepend(b),
       addModifier(m)
     )(e)
   }
@@ -70,7 +71,7 @@ module.exports = {
   bem,
   uniq,
   neue,
-  // prepend,
+  prepend,
   safeprepend,
   addModifier,
   make

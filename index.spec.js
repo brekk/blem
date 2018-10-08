@@ -13,7 +13,8 @@ test(`blem`, () => {
   expect(x(`element`, `cabbage`.split(``))).toEqual(
     `block__element block__element--a block__element--b block__element--c block__element--e block__element--g`
   )
-  expect(blem(`x`)(``, ``)).toEqual(``)
+  expect(blem(`x`)(``, `z`)).toEqual(`x x--z`)
+  expect(blem(`x`)(``, `zap`.split(``))).toEqual(`x x--a x--p x--z`)
   expect(blem(`x`)(`y`, ``)).toEqual(`x__y`)
   expect(blem(`x`)(`y`, `z`)).toEqual(`x__y x__y--z`)
 })
