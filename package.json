@@ -13,5 +13,9 @@
   "repository": "gitlab.com/brekk/blem",
   "author": "brekk",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["block", "block-element", "block-element-modifier", "bem", "blem", "bemit"]
 }
