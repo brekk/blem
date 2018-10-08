@@ -7,7 +7,7 @@
     "jest": "^23.6.0"
   },
   "name": "blem",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "functional block__element--modifier string generators",
   "main": "index.js",
   "repository": "gitlab.com/brekk/blem",
