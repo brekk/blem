@@ -7,7 +7,7 @@
     "jest": "^23.6.0"
   },
   "name": "blem",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "functional block__element--modifier string generators",
   "main": "index.js",
   "repository": "gitlab.com/brekk/blem",
@@ -17,5 +17,12 @@
   "scripts": {
     "test": "jest"
   },
-  "keywords": ["block", "block-element", "block-element-modifier", "bem", "blem", "bemit"]
+  "keywords": [
+    "block",
+    "block-element",
+    "block-element-modifier",
+    "bem",
+    "blem",
+    "bemit"
+  ]
 }
