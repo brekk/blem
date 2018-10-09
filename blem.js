@@ -1,6 +1,9 @@
 const memo = require('memoizee')
 const {trace} = require('xtrace')
 const {
+  isString,
+  isArray,
+  triplet,
   map,
   curry,
   pipe,
@@ -38,17 +41,24 @@ const addModifier = curry(
   )
 )
 
+const forceString = x => (
+  isString(x) ? x : STRINGS.empty
+)
+
 const bem = memo(
   function λbem(b, e, m) {
     return pipe(
+      forceString,
       neue,
       join(STRINGS.element),
       safeprepend(STRINGS.element),
-      prepend(b),
-      addModifier(m)
+      prepend(forceString(b)),
+      addModifier(forceString(m))
     )(e)
   }
 )
+
+const first = x => x && x[0]
 
 const make = memo(function λmake(b) {
   return memo(function λmakeElement(e, m) {
@@ -57,10 +67,16 @@ const make = memo(function λmake(b) {
       ? pipe(
         neue,
         map(m2 => bem(b, e, m2)),
-        reduce(concat, []),
-        uniq,
-        x => x.sort(),
-        join(STRINGS.space)
+	triplet(
+	  x => isArray(x) && !isString(x[0]),
+          first,
+          pipe(
+            reduce(concat, []),
+            uniq,
+            x => x.sort(),
+	    join(STRINGS.space)
+	  )
+	)
       )(m)
       : bem(b, e)
     )
