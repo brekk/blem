@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "f-utility": "^3.5.6",
+    "f-utility": "^3.5.8",
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
