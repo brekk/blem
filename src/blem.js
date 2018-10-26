@@ -1,4 +1,4 @@
-import memo from "memoizee"
+import memo from "fast-memoize"
 import {
   isString,
   isArray,
@@ -8,16 +8,15 @@ import {
   pipe,
   join,
   reduce,
-  concat,
-  freeze
+  concat
 } from "f-utility"
 
-const STRINGS = freeze({
+const STRINGS = {
   modifier: `--`,
   element: `__`,
   space: ` `,
   empty: ``
-})
+}
 
 export const uniq = x => [...new Set(x)]
 export const neue = x => [].concat(x)
@@ -32,7 +31,7 @@ export const addModifier = curry(
 
 export const forceString = x => (isString(x) ? x : STRINGS.empty)
 
-export const bem = memo(function λbem(b, e, m) {
+export const bem = memo(function _bem(b, e, m) {
   return pipe(
     forceString,
     neue,
@@ -43,25 +42,26 @@ export const bem = memo(function λbem(b, e, m) {
   )(e)
 })
 
+export const arrayWithNoStrings = x => isArray(x) && !isString(x[0])
+
 export const first = x => x && x[0]
 
-export const make = memo(function λmake(b) {
-  return memo(function λmakeElement(e, m) {
-    return m
-      ? pipe(
-          neue,
-          map(m2 => bem(b, e, m2)),
-          triplet(
-            x => isArray(x) && !isString(x[0]),
-            first,
-            pipe(
-              reduce(concat, []),
-              uniq,
-              x => x.sort(),
-              join(STRINGS.space)
-            )
-          )
-        )(m)
-      : bem(b, e)
+export const handleMany = pipe(
+  reduce(concat, []),
+  uniq,
+  x => x.sort(),
+  join(STRINGS.space)
+)
+
+export const make = memo(function _make(b) {
+  return memo(function _makeElement(e, m) {
+    if (m) {
+      return pipe(
+        neue,
+        map(m2 => bem(b, e, m2)),
+        triplet(arrayWithNoStrings, first, handleMany)
+      )(m)
+    }
+    return bem(b, e)
   })
 })

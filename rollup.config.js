@@ -1,7 +1,6 @@
 import resolve from "rollup-plugin-node-resolve"
 import cjs from "rollup-plugin-commonjs"
-import buble from "rollup-plugin-buble"
-import babili from "rollup-plugin-babel-minify"
+import babel from "rollup-plugin-babel"
 import cleanup from "rollup-plugin-cleanup"
 import json from "rollup-plugin-json"
 import progress from "rollup-plugin-progress"
@@ -13,7 +12,7 @@ const plugins = [
   progress(),
   json(),
   cjs({ extensions: [`.js`], include: `node_modules/**` }),
-  buble(),
+  babel(),
   resolve({ jsnext: true, main: true }),
   cleanup({ comments: `none` })
 ]
@@ -21,7 +20,7 @@ const external = [`f-utility`, `memoizee`]
 
 export default [
   {
-    input: `src/blem.js`,
+    input: `src/index.js`,
     output: {
       name: camelCase(pkg.name),
       file: pkg.browser,
