@@ -9,7 +9,10 @@ test(`blem`, () => {
     `block__element block__element--a block__element--b block__element--c`
   )
   expect(x(`element`, `cabbage`.split(``))).toEqual(
-    `block__element block__element--a block__element--b block__element--c block__element--e block__element--g`
+    [
+      `block__element block__element--a block__element--b`,
+      `block__element--c block__element--e block__element--g`
+    ].join(` `)
   )
   expect(blem(`x`)(``, `z`)).toEqual(`x x--z`)
   expect(blem(`x`)(``, `zap`.split(``))).toEqual(`x x--a x--p x--z`)

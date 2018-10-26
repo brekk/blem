@@ -9,9 +9,9 @@ test(`neue`, () => {
   expect(input).toEqual(`abcx`.split(``))
   expect(output).toEqual(`abc`.split(``))
 })
-// test(`prepend`, () => {
-//   expect(prepend(`xxx`, `yyy`)).toEqual(`xxxyyy`)
-// })
+test(`prepend`, () => {
+  expect(prepend(`xxx`, `yyy`)).toEqual(`xxxyyy`)
+})
 test(`safeprepend`, () => {
   expect(safeprepend(`>`, `<`)).toEqual(`><`)
   expect(safeprepend(`___`, false)).toEqual(``)
