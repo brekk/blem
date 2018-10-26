@@ -1,9 +1,7 @@
-const blem = require('./index')
+import blem from "./index"
 test(`blem`, () => {
   const x = blem(`block`)
-  expect(x(`element`)).toEqual(
-    `block__element`
-  )
+  expect(x(`element`)).toEqual(`block__element`)
   expect(x(`element`, [`modifier`])).toEqual(
     `block__element block__element--modifier`
   )
