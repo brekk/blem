@@ -1,94 +1,58 @@
-const memo = require('memoizee')
-const {trace} = require('xtrace')
-const {
-  isString,
-  isArray,
-  triplet,
-  map,
-  curry,
-  pipe,
-  join,
-  reduce,
-  concat,
-  freeze
-} = require('f-utility')
+'use strict';
 
-const STRINGS = freeze({
-  modifier: `--`,
-  element: `__`,
-  space: ` `,
-  empty: ``
-})
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-const uniq = x => [...new Set(x)]
-const neue = x => [].concat(x)
-const prepend = curry(
-  (pre, post) => `${pre}${post}`
-)
-const safeprepend = curry(
-  (pre, post) => (
-    post
-    ? `${pre}${post}`
-    : STRINGS.empty
-  )
-)
+var memo = _interopDefault(require('memoizee'));
+var fUtility = require('f-utility');
 
-const addModifier = curry(
-  (m, x) => (
-    m
-    ? [x, `${x}${safeprepend(STRINGS.modifier, m)}`]
-    : x
-  )
-)
-
-const forceString = x => (
-  isString(x) ? x : STRINGS.empty
-)
-
-const bem = memo(
-  function λbem(b, e, m) {
-    return pipe(
-      forceString,
-      neue,
-      join(STRINGS.element),
-      safeprepend(STRINGS.element),
-      prepend(forceString(b)),
-      addModifier(forceString(m))
-    )(e)
-  }
-)
-
-const first = x => x && x[0]
-
-const make = memo(function λmake(b) {
+var STRINGS = fUtility.freeze({
+  modifier: "--",
+  element: "__",
+  space: " ",
+  empty: ""
+});
+var uniq = function (x) { return [].concat( new Set(x) ); };
+var neue = function (x) { return [].concat(x); };
+var prepend = fUtility.curry(function (pre, post) { return ("" + pre + post); });
+var safeprepend = fUtility.curry(
+  function (pre, post) { return (post ? ("" + pre + post) : STRINGS.empty); }
+);
+var addModifier = fUtility.curry(
+  function (m, x) { return (m ? [x, ("" + x + (safeprepend(STRINGS.modifier, m)))] : x); }
+);
+var forceString = function (x) { return (fUtility.isString(x) ? x : STRINGS.empty); };
+var bem = memo(function λbem(b, e, m) {
+  return fUtility.pipe(
+    forceString,
+    neue,
+    fUtility.join(STRINGS.element),
+    safeprepend(STRINGS.element),
+    prepend(forceString(b)),
+    addModifier(forceString(m))
+  )(e)
+});
+var first = function (x) { return x && x[0]; };
+var make = memo(function λmake(b) {
   return memo(function λmakeElement(e, m) {
-    return (
-      m
-      ? pipe(
-        neue,
-        map(m2 => bem(b, e, m2)),
-	triplet(
-	  x => isArray(x) && !isString(x[0]),
-          first,
-          pipe(
-            reduce(concat, []),
-            uniq,
-            x => x.sort(),
-	    join(STRINGS.space)
-	  )
-	)
-      )(m)
+    return m
+      ? fUtility.pipe(
+          neue,
+          fUtility.map(function (m2) { return bem(b, e, m2); }),
+          fUtility.triplet(
+            function (x) { return fUtility.isArray(x) && !fUtility.isString(x[0]); },
+            first,
+            fUtility.pipe(
+              fUtility.reduce(fUtility.concat, []),
+              uniq,
+              function (x) { return x.sort(); },
+              fUtility.join(STRINGS.space)
+            )
+          )
+        )(m)
       : bem(b, e)
-    )
   })
-})
+});
 
-module.exports = {
-  bem,
-  uniq,
-  neue,
-  prepend,
-  safeprepend,
-  addModifier,
-  make
-}
+var blem = make;
+
+module.exports = blem;

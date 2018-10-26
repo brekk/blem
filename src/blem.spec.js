@@ -1,12 +1,4 @@
-const B = require('./blem')
-const {
-  uniq,
-  neue,
-  prepend,
-  safeprepend,
-  addModifier,
-  bem
-} = B
+import { uniq, neue, prepend, safeprepend, addModifier, bem } from "./blem"
 test(`uniq`, () => {
   expect(uniq(`baffled`.split(``))).toEqual(`bafled`.split(``))
 })
