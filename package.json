@@ -1,11 +1,23 @@
 {
   "jest": {
-    "modulePaths": ["src"],
-    "moduleDirectories": ["node_modules", "src"],
-    "modulePathIgnorePatterns": ["lib"],
+    "modulePaths": [
+      "src"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "modulePathIgnorePatterns": [
+      "lib"
+    ],
     "coveragePathIgnorePatterns": [],
-    "moduleFileExtensions": ["js", "json"],
-    "testMatch": ["**/*.spec.(jsx|js)"]
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "testMatch": [
+      "**/*.spec.(jsx|js)"
+    ]
   },
   "dependencies": {
     "f-utility": "^3.5.8",
@@ -36,7 +48,7 @@
     "xtrace": "^0.1.10"
   },
   "name": "blem",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "functional block__element--modifier string generators",
   "main": "blem.js",
   "module": "blem.es.js",
