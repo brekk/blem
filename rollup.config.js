@@ -4,9 +4,9 @@ import babel from "rollup-plugin-babel"
 import cleanup from "rollup-plugin-cleanup"
 import json from "rollup-plugin-json"
 import progress from "rollup-plugin-progress"
-import prepack from "rollup-plugin-prepack"
-import pkg from "./package.json"
+// import prepack from "rollup-plugin-prepack"
 import camelCase from "camel-case"
+import pkg from "./package.json"
 
 const plugins = [
   progress(),
@@ -16,7 +16,7 @@ const plugins = [
   resolve({ jsnext: true, main: true }),
   cleanup({ comments: `none` })
 ]
-const external = [`f-utility`, `memoizee`]
+const external = Object.keys(pkg.dependencies) || []
 
 export default [
   {

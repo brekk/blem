@@ -1,4 +1,5 @@
-import { isString, isArray, triplet, map, curry, pipe, join, reduce, concat } from 'f-utility';
+import memo from 'fast-memoize';
+import { curry, pipe, join, isString, reduce, concat, map, triplet, isArray } from 'f-utility';
 
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
@@ -19,79 +20,6 @@ function _iterableToArray(iter) {
 function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
-
-function memoize(fn, options) {
-  var cache = options && options.cache ? options.cache : cacheDefault;
-  var serializer = options && options.serializer ? options.serializer : serializerDefault;
-  var strategy = options && options.strategy ? options.strategy : strategyDefault;
-  return strategy(fn, {
-    cache: cache,
-    serializer: serializer
-  });
-}
-function isPrimitive(value) {
-  return value == null || typeof value === 'number' || typeof value === 'boolean';
-}
-function monadic(fn, cache, serializer, arg) {
-  var cacheKey = isPrimitive(arg) ? arg : serializer(arg);
-  var computedValue = cache.get(cacheKey);
-  if (typeof computedValue === 'undefined') {
-    computedValue = fn.call(this, arg);
-    cache.set(cacheKey, computedValue);
-  }
-  return computedValue;
-}
-function variadic(fn, cache, serializer) {
-  var args = Array.prototype.slice.call(arguments, 3);
-  var cacheKey = serializer(args);
-  var computedValue = cache.get(cacheKey);
-  if (typeof computedValue === 'undefined') {
-    computedValue = fn.apply(this, args);
-    cache.set(cacheKey, computedValue);
-  }
-  return computedValue;
-}
-function assemble(fn, context, strategy, cache, serialize) {
-  return strategy.bind(context, fn, cache, serialize);
-}
-function strategyDefault(fn, options) {
-  var strategy = fn.length === 1 ? monadic : variadic;
-  return assemble(fn, this, strategy, options.cache.create(), options.serializer);
-}
-function strategyVariadic(fn, options) {
-  var strategy = variadic;
-  return assemble(fn, this, strategy, options.cache.create(), options.serializer);
-}
-function strategyMonadic(fn, options) {
-  var strategy = monadic;
-  return assemble(fn, this, strategy, options.cache.create(), options.serializer);
-}
-function serializerDefault() {
-  return JSON.stringify(arguments);
-}
-function ObjectWithoutPrototypeCache() {
-  this.cache = Object.create(null);
-}
-ObjectWithoutPrototypeCache.prototype.has = function (key) {
-  return key in this.cache;
-};
-ObjectWithoutPrototypeCache.prototype.get = function (key) {
-  return this.cache[key];
-};
-ObjectWithoutPrototypeCache.prototype.set = function (key, value) {
-  this.cache[key] = value;
-};
-var cacheDefault = {
-  create: function create() {
-    return new ObjectWithoutPrototypeCache();
-  }
-};
-var src = memoize;
-var strategies = {
-  variadic: strategyVariadic,
-  monadic: strategyMonadic
-};
-src.strategies = strategies;
 
 var STRINGS = {
   modifier: "--",
@@ -117,7 +45,7 @@ var addModifier = curry(function (m, x) {
 var forceString = function forceString(x) {
   return isString(x) ? x : STRINGS.empty;
 };
-var bem = src(function _bem(b, e, m) {
+var bem = memo(function _bem(b, e, m) {
   return pipe(forceString, neue, join(STRINGS.element), safeprepend(STRINGS.element), prepend(forceString(b)), addModifier(forceString(m)))(e);
 });
 var arrayWithNoStrings = function arrayWithNoStrings(x) {
@@ -129,8 +57,8 @@ var first = function first(x) {
 var handleMany = pipe(reduce(concat, []), uniq, function (x) {
   return x.sort();
 }, join(STRINGS.space));
-var make = src(function _make(b) {
-  return src(function _makeElement(e, m) {
+var make = memo(function _make(b) {
+  return memo(function _makeElement(e, m) {
     if (m) {
       return pipe(neue, map(function (m2) {
         return bem(b, e, m2);
