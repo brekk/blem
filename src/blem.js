@@ -21,12 +21,12 @@ const STRINGS = {
 export const uniq = x => [...new Set(x)]
 export const neue = x => [].concat(x)
 export const prepend = curry((pre, post) => `${pre}${post}`)
-export const safeprepend = curry(
-  (pre, post) => (post ? `${pre}${post}` : STRINGS.empty)
+export const safeprepend = curry((pre, post) =>
+  post ? `${pre}${post}` : STRINGS.empty
 )
 
-export const addModifier = curry(
-  (m, x) => (m ? [x, `${x}${safeprepend(STRINGS.modifier, m)}`] : x)
+export const addModifier = curry((m, x) =>
+  m ? [x, `${x}${safeprepend(STRINGS.modifier, m)}`] : x
 )
 
 export const forceString = x => (isString(x) ? x : STRINGS.empty)
