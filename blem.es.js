@@ -1,5 +1,5 @@
 import memo from 'fast-memoize';
-import { curry, pipe, join, isString, reduce, concat, map, triplet, isArray } from 'f-utility';
+import { curry, pipe, join, reduce, concat, map } from 'ramda';
 
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
@@ -21,6 +21,13 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
+var isString = function isString(x) {
+  return typeof x === "string";
+};
+var isArray = Array.isArray;
+var triplet = curry(function (condition, bCase, aCase, x) {
+  return condition(x) ? aCase(x) : bCase(x);
+});
 var STRINGS = {
   modifier: "--",
   element: "__",
