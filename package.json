@@ -61,7 +61,7 @@
     "xtrace": "0.2.0"
   },
   "name": "blem",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "functional block__element--modifier string generators",
   "main": "blem.js",
   "module": "blem.es.js",
