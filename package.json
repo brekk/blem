@@ -23,8 +23,8 @@
     ]
   },
   "dependencies": {
-    "f-utility": "^3.5.8",
-    "fast-memoize": "^2.5.1"
+    "fast-memoize": "^2.5.1",
+    "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",

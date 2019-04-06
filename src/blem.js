@@ -1,15 +1,11 @@
 import memo from "fast-memoize"
-import {
-  isString,
-  isArray,
-  triplet,
-  map,
-  curry,
-  pipe,
-  join,
-  reduce,
-  concat
-} from "f-utility"
+import { map, curry, pipe, join, reduce, concat } from "ramda"
+
+const isString = x => typeof x === `string`
+const { isArray } = Array
+const triplet = curry((condition, bCase, aCase, x) =>
+  condition(x) ? aCase(x) : bCase(x)
+)
 
 const STRINGS = {
   modifier: `--`,
