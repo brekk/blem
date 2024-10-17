@@ -1,11 +1,5 @@
-'use strict';
-
-var memo = require('fast-memoize');
-var ramda = require('ramda');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var memo__default = /*#__PURE__*/_interopDefaultLegacy(memo);
+import memo from 'fast-memoize';
+import { curry, pipe, join, reduce, concat, map } from 'ramda';
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -45,7 +39,7 @@ var isString = function isString(x) {
   return _typeof(x) === "string";
 };
 var isArray = Array.isArray;
-var triplet = ramda.curry(function (condition, bCase, aCase, x) {
+var triplet = curry(function (condition, bCase, aCase, x) {
   return condition(x) ? aCase(x) : bCase(x);
 });
 var STRINGS = {
@@ -60,20 +54,20 @@ var uniq = function uniq(x) {
 var neue = function neue(x) {
   return [].concat(x);
 };
-var prepend = ramda.curry(function (pre, post) {
+var prepend = curry(function (pre, post) {
   return "".concat(pre).concat(post);
 });
-var safeprepend = ramda.curry(function (pre, post) {
+var safeprepend = curry(function (pre, post) {
   return post ? "".concat(pre).concat(post) : STRINGS.empty;
 });
-var addModifier = ramda.curry(function (m, x) {
+var addModifier = curry(function (m, x) {
   return m ? [x, "".concat(x).concat(safeprepend(STRINGS.modifier, m))] : x;
 });
 var forceString = function forceString(x) {
   return isString(x) ? x : STRINGS.empty;
 };
-var bem = memo__default["default"](function _bem(b, e, m) {
-  return ramda.pipe(forceString, neue, ramda.join(STRINGS.element), safeprepend(STRINGS.element), prepend(forceString(b)), addModifier(forceString(m)))(e);
+var bem = memo(function _bem(b, e, m) {
+  return pipe(forceString, neue, join(STRINGS.element), safeprepend(STRINGS.element), prepend(forceString(b)), addModifier(forceString(m)))(e);
 });
 var arrayWithNoStrings = function arrayWithNoStrings(x) {
   return isArray(x) && !isString(x[0]);
@@ -81,13 +75,13 @@ var arrayWithNoStrings = function arrayWithNoStrings(x) {
 var first = function first(x) {
   return x && x[0];
 };
-var handleMany = ramda.pipe(ramda.reduce(ramda.concat, []), uniq, function (x) {
+var handleMany = pipe(reduce(concat, []), uniq, function (x) {
   return x.sort();
-}, ramda.join(STRINGS.space));
-var make = memo__default["default"](function _make(b) {
-  return memo__default["default"](function _makeElement(e, m) {
+}, join(STRINGS.space));
+var make = memo(function _make(b) {
+  return memo(function _makeElement(e, m) {
     if (m) {
-      return ramda.pipe(neue, ramda.map(function (m2) {
+      return pipe(neue, map(function (m2) {
         return bem(b, e, m2);
       }), triplet(arrayWithNoStrings, first, handleMany))(m);
     }
@@ -97,4 +91,4 @@ var make = memo__default["default"](function _make(b) {
 
 var blem = make;
 
-module.exports = blem;
+export { blem as default };
