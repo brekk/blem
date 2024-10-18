@@ -1,5 +1,4 @@
 import globals from "globals"
-import jest from "eslint-plugin-jest"
 import importables from "eslint-plugin-import"
 import prettier from "eslint-plugin-prettier"
 import pluginJs from "@eslint/js"
@@ -7,18 +6,23 @@ import pluginJs from "@eslint/js"
 
 export default [
   {
+    ignores: [
+      "blem.mjs",
+      "blem.umd.js",
+      "blem.js",
+      "!src/blem.js",
+      "*.config.mjs",
+    ],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest,
       },
       ecmaVersion: "latest",
       sourceType: "module",
     },
-  },
-  {
-    ignores: ["/*", "!/src", "*.umd.js", "*.config.mjs"],
   },
   {
     plugins: { prettier },
@@ -48,7 +52,7 @@ export default [
       "no-extra-semi": 2,
       "no-var": 2,
       eqeqeq: [2, "smart"],
-      "arrow-parens": [2, "as-needed"],
+      "arrow-parens": [2, "always"],
       "consistent-this": 0,
       "func-names": [2],
       "generator-star-spacing": [2, "after"],
@@ -68,6 +72,5 @@ export default [
       "no-shadow": [2, { builtinGlobals: false, hoist: "all" }],
     },
   },
-  { plugins: { jest }, rules: { ...jest.configs.recommended.rules } },
   pluginJs.configs.recommended,
 ]

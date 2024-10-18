@@ -1,18 +1,17 @@
-//import { nodeResolve } from "@rollup/plugin-node-resolve";
-import cjs from "@rollup/plugin-commonjs";
-import babel from "@rollup/plugin-babel";
-import json from "@rollup/plugin-json";
-import ts from "@rollup/plugin-typescript";
-import pkg from "./package.json" with { type: "json" };
+import { nodeResolve } from "@rollup/plugin-node-resolve"
+import terser from "@rollup/plugin-terser"
+import cjs from "@rollup/plugin-commonjs"
+import babel from "@rollup/plugin-babel"
+import json from "@rollup/plugin-json"
+import pkg from "./package.json" with { type: "json" }
 
 const plugins = [
-  json(),
-  cjs({ extensions: [`.js`], include: `node_modules/**` }),
-  babel(),
+  //json(),
+  // cjs({ extensions: [`.js`], include: `node_modules/**` }),
+  //babel({ babelHelpers: "runtime" }),
   //nodeResolve({ mainFields: ["browser", "jsnext:main", "module", "main"] }),
-  ts(),
-];
-const external = Object.keys(pkg.dependencies) || [];
+]
+const external = Object.keys(pkg.dependencies) || []
 
 export default [
   {
@@ -21,8 +20,20 @@ export default [
       name: pkg.name,
       file: pkg.browser,
       format: `umd`,
+      //globals: {
+      //  ramda: "ramda",
+      //  "fast-memoize": "memo",
+      //},
     },
-    plugins,
+    plugins: [
+      cjs({ extensions: [`.js`], include: `node_modules/**` }),
+      nodeResolve(),
+      terser({
+        compress: {
+          passes: 2,
+        },
+      }),
+    ],
   },
   {
     input: `src/index.js`,
@@ -31,6 +42,9 @@ export default [
       { file: pkg.main, format: `cjs`, exports: "default" },
       { file: pkg.module, format: `es` },
     ],
-    plugins,
+    plugins: [
+      nodeResolve(),
+      babel({ babelHelpers: "bundled", exclude: "node_modules/**" }),
+    ],
   },
-];
+]
