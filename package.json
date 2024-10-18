@@ -1,7 +1,4 @@
 {
-  "resolutions": {
-    "**/event-stream": "^4.0.1"
-  },
   "jest": {
     "modulePaths": [
       "src"
@@ -31,23 +28,19 @@
     "@babel/core": "7.2.2",
     "@babel/plugin-transform-destructuring": "7.2.0",
     "@babel/preset-env": "7.2.3",
+    "@eslint/js": "^9.12.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "camel-case": "^3.0.0",
-    "eslint": "5.12.0",
-    "eslint-config-prettier": "3.3.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-babel": "5.3.0",
-    "eslint-plugin-fp": "^2.3.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "8.0.1",
-    "eslint-plugin-prettier": "3.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint": "^9.12.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-jsdoc": "^50.4.3",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.11.0",
     "jest": "^23.6.0",
     "nps": "^5.9.3",
-    "prettier": "1.15.3",
-    "prettier-eslint": "^8.8.2",
+    "prettier": "^3.3.3",
     "rollup": "1.0.1",
     "rollup-plugin-alias": "1.5.1",
     "rollup-plugin-babel": "4.2.0",
@@ -62,14 +55,15 @@
   },
   "name": "blem",
   "version": "0.0.9",
+  "type": "module",
   "description": "functional block__element--modifier string generators",
   "main": "blem.js",
-  "module": "blem.es.js",
+  "module": "blem.mjs",
   "browser": "blem.umd.js",
   "repository": "gitlab.com/brekk/blem",
   "author": "brekk",
   "license": "MIT",
-  "private": false,
+  "types": "blem.d.ts",
   "scripts": {
     "test": "jest"
   },
