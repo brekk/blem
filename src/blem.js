@@ -1,11 +1,8 @@
 import memo from "fast-memoize"
-import { map, curry, pipe, join, reduce, concat } from "ramda"
+import { map, ifElse, curry, pipe, join, reduce, head, concat } from "ramda"
 
 const isString = (x) => typeof x === `string`
 const { isArray } = Array
-const triplet = curry((condition, bCase, aCase, x) =>
-  condition(x) ? aCase(x) : bCase(x),
-)
 
 const STRINGS = {
   modifier: `--`,
@@ -40,8 +37,6 @@ export const bem = memo(function _bem(b, e, m) {
 
 export const arrayWithNoStrings = (x) => isArray(x) && !isString(x[0])
 
-export const first = (x) => x && x[0]
-
 export const handleMany = pipe(
   reduce(concat, []),
   uniq,
@@ -51,13 +46,12 @@ export const handleMany = pipe(
 
 export const make = memo(function _make(b) {
   return memo(function _makeElement(e, m) {
-    if (m) {
-      return pipe(
-        neue,
-        map((m2) => bem(b, e, m2)),
-        triplet(arrayWithNoStrings, first, handleMany),
-      )(m)
-    }
-    return bem(b, e)
+    return m
+      ? pipe(
+          neue,
+          map((m2) => bem(b, e, m2)),
+          ifElse(arrayWithNoStrings, handleMany, head),
+        )(m)
+      : bem(b, e)
   })
 })
