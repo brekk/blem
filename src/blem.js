@@ -46,12 +46,14 @@ export const handleMany = pipe(
 
 export const make = memo(function _make(b) {
   return memo(function _makeElement(e, m) {
-    return m
-      ? pipe(
-          neue,
-          map((m2) => bem(b, e, m2)),
-          ifElse(arrayWithNoStrings, handleMany, head),
-        )(m)
-      : bem(b, e)
+    if (m) {
+      return pipe(
+        neue,
+        map((m2) => bem(b, e, m2)),
+        ifElse(arrayWithNoStrings, handleMany, head),
+      )(m)
+    } else {
+      return bem(b, e)
+    }
   })
 })

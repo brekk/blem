@@ -6,13 +6,7 @@ import pluginJs from "@eslint/js"
 
 export default [
   {
-    ignores: [
-      "blem.mjs",
-      "blem.umd.js",
-      "blem.js",
-      "!src/blem.js",
-      "*.config.mjs",
-    ],
+    ignores: ["dist/*", "*.config.mjs", ".pnp*"],
   },
   {
     languageOptions: {
@@ -36,15 +30,6 @@ export default [
       "import/named": 2,
       "import/no-mutable-exports": 2,
       "import/order": 2,
-      "import/extensions": [
-        2,
-        {
-          json: "always",
-          js: "never",
-          validation: "always",
-          task: "always",
-        },
-      ],
     },
   },
   {
@@ -58,7 +43,6 @@ export default [
       "generator-star-spacing": [2, "after"],
       indent: [2, 2],
       "jsx-quotes": [1, "prefer-double"],
-      quotes: [2, "backtick"],
       "max-len": [1, 100, 2],
       "new-cap": [2, { capIsNew: false }],
       "no-trailing-spaces": [2, { skipBlankLines: true }],
