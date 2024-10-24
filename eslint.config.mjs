@@ -5,6 +5,7 @@ import pluginJs from "@eslint/js"
 //import pkg from "./package.json" with { type: "json" }
 
 export default [
+  pluginJs.configs.recommended,
   {
     ignores: ["dist/*", "*.config.mjs", ".pnp*"],
   },
@@ -56,5 +57,4 @@ export default [
       "no-shadow": [2, { builtinGlobals: false, hoist: "all" }],
     },
   },
-  pluginJs.configs.recommended,
 ]
